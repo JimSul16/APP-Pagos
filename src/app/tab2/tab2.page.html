@@ -1,17 +1,67 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>
-      Tab 2
-    </ion-title>
+    <ion-title>Compra</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 2</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
 
-  <app-explore-container name="Tab 2 page"></app-explore-container>
+    <ion-item>
+      <ion-input
+        label="Nombre del Producto"
+        labelPlacement="stacked"
+        type="text"
+        formControlName="nombre"
+        placeholder="Ej: Laptop"
+      ></ion-input>
+    </ion-item>
+    <ion-note color="danger" *ngIf="form.get('nombre')?.touched && form.get('nombre')?.hasError('required')">
+      El nombre es obligatorio.
+    </ion-note>
+    <ion-note color="danger" *ngIf="form.get('nombre')?.touched && form.get('nombre')?.hasError('minlength')">
+      El nombre debe tener al menos 2 caracteres.
+    </ion-note>
+
+    <ion-item>
+      <ion-input
+        label="Cantidad"
+        labelPlacement="stacked"
+        type="number"
+        formControlName="cantidad"
+        placeholder="Ej: 3"
+      ></ion-input>
+    </ion-item>
+    <ion-note color="danger" *ngIf="form.get('cantidad')?.touched && form.get('cantidad')?.hasError('required')">
+      La cantidad es obligatoria.
+    </ion-note>
+    <ion-note color="danger" *ngIf="form.get('cantidad')?.touched && form.get('cantidad')?.hasError('min')">
+      La cantidad debe ser al menos 1.
+    </ion-note>
+    <ion-note color="danger" *ngIf="form.get('cantidad')?.touched && form.get('cantidad')?.hasError('pattern')">
+      La cantidad debe ser un número entero.
+    </ion-note>
+
+    <ion-item>
+      <ion-input
+        label="Precio Unitario ($)"
+        labelPlacement="stacked"
+        type="number"
+        step="0.01"
+        formControlName="precioUnitario"
+        placeholder="Ej: 15.50"
+      ></ion-input>
+    </ion-item>
+    <ion-note color="danger" *ngIf="form.get('precioUnitario')?.touched && form.get('precioUnitario')?.hasError('required')">
+      El precio unitario es obligatorio.
+    </ion-note>
+    <ion-note color="danger" *ngIf="form.get('precioUnitario')?.touched && form.get('precioUnitario')?.hasError('min')">
+      El precio debe ser mayor a 0.
+    </ion-note>
+
+    <ion-button expand="block" type="submit" [disabled]="form.invalid" class="ion-margin-top">
+      Continuar al Pago
+    </ion-button>
+
+  </form>
 </ion-content>

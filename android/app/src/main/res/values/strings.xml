@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Compra y Pago</string>
+    <string name="title_activity_main">Compra y Pago</string>
+    <string name="package_name">com.app.comprapago</string>
+    <string name="custom_url_scheme">com.app.comprapago</string>
+</resources>

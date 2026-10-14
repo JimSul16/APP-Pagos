@@ -1,17 +1,113 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>
-      Tab 3
-    </ion-title>
+    <ion-title>Pago</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 3</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding">
 
-  <app-explore-container name="Tab 3 page"></app-explore-container>
+  <!-- Resumen de compra -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Resumen de Compra</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list lines="none">
+        <ion-item>
+          <ion-label>
+            <p>Producto</p>
+            <h2>{{ purchaseService.producto }}</h2>
+          </ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            <p>Cantidad</p>
+            <h2>{{ purchaseService.cantidad }}</h2>
+          </ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            <p>Precio Unitario</p>
+            <h2>{{ purchaseService.precioUnitario | number:'1.2-2' }}</h2>
+          </ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            <p>Subtotal</p>
+            <h2><strong>{{ purchaseService.subtotal | number:'1.2-2' }}</strong></h2>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Formulario de pago -->
+  <form [formGroup]="form">
+
+    <ion-item>
+      <ion-input
+        label="Descuento (%)"
+        labelPlacement="stacked"
+        type="number"
+        formControlName="descuento"
+        placeholder="0"
+      ></ion-input>
+    </ion-item>
+    <ion-note color="danger" *ngIf="form.get('descuento')?.touched && form.get('descuento')?.hasError('min')">
+      El descuento no puede ser negativo.
+    </ion-note>
+    <ion-note color="danger" *ngIf="form.get('descuento')?.touched && form.get('descuento')?.hasError('max')">
+      El descuento no puede superar el 100%.
+    </ion-note>
+
+    <ion-item>
+      <ion-input
+        label="Dinero Recibido ($)"
+        labelPlacement="stacked"
+        type="number"
+        step="0.01"
+        formControlName="dineroRecibido"
+        placeholder="0.00"
+      ></ion-input>
+    </ion-item>
+    <ion-note color="danger" *ngIf="form.get('dineroRecibido')?.touched && form.get('dineroRecibido')?.hasError('min')">
+      El dinero recibido no puede ser negativo.
+    </ion-note>
+
+  </form>
+
+  <!-- Resultados -->
+  <ion-card class="results-card">
+    <ion-card-content>
+
+      <ion-item lines="none">
+        <ion-label>
+          <p>Descuento Aplicado</p>
+          <h2>- ${{ montoDescuento | number:'1.2-2' }}</h2>
+        </ion-label>
+      </ion-item>
+
+      <ion-item lines="none">
+        <ion-label>
+          <p>Total Final</p>
+          <h2><strong>${{ totalFinal | number:'1.2-2' }}</strong></h2>
+        </ion-label>
+      </ion-item>
+
+      <div class="result-chip">
+        <ion-chip *ngIf="esCambio" color="success">
+          <ion-label>Cambio: ${{ diferencia | number:'1.2-2' }}</ion-label>
+        </ion-chip>
+        <ion-chip *ngIf="!esCambio" color="danger">
+          <ion-label>Saldo Pendiente: ${{ (diferencia * -1) | number:'1.2-2' }}</ion-label>
+        </ion-chip>
+      </div>
+
+    </ion-card-content>
+  </ion-card>
+
+  <ion-button expand="block" color="medium" (click)="nuevaCompra()">
+    Nueva Compra
+  </ion-button>
+
 </ion-content>
