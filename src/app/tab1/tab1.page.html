@@ -1,35 +1,68 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
-    <ion-title>Bienvenido</ion-title>
+    <ion-title>TechStore - Inicio</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar color="primary">
-      <ion-title size="large">Bienvenido</ion-title>
+      <ion-title size="large">TechStore</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <ion-img
-    class="welcome-image"
-    src="assets/img/welcome-banner.svg"
-    alt="Banner de bienvenida">
-  </ion-img>
+  <!-- Banner Hero: Computadoras y Tecnología -->
+  <div class="banner-container">
+    <img
+      src="assets/img/tech-computers.jpg"
+      alt="Computadoras y Tecnología"
+      class="hero-image"
+    />
+    <div class="banner-overlay">
+      <ion-badge color="warning">Tecnología 2026</ion-badge>
+      <h2>Computadoras y Tecnología</h2>
+      <p>Equipos de alto rendimiento, portátiles y accesorios</p>
+    </div>
+  </div>
 
-  <ion-card>
+  <!-- Tarjeta de Bienvenida y Descripción -->
+  <ion-card class="welcome-card">
     <ion-card-header>
-      <ion-card-title>Sistema de Compra y Pago</ion-card-title>
+      <ion-card-subtitle>Módulo de Facturación</ion-card-subtitle>
+      <ion-card-title>Registro de Compra y Pago</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      Esta aplicación te permite registrar tus compras de manera rápida y sencilla,
-      calcular el total de tus productos y gestionar los pagos correspondientes.
-      ¡Comienza agregando productos a tu carrito!
+      Bienvenido a TechStore. Registra las compras de productos informáticos, aplica
+      descuentos y calcula en tiempo real el cambio o saldo pendiente.
     </ion-card-content>
   </ion-card>
 
-  <ion-button expand="block" color="primary" routerLink="/tabs/tab2">
-    <ion-icon name="cart-outline" slot="start"></ion-icon>
-    Iniciar Compra
-  </ion-button>
+  <!-- Botón de Acción Principal -->
+  <div class="ion-padding-horizontal">
+    <ion-button expand="block" color="primary" size="large" (click)="irACompra()">
+      <ion-icon name="cart-outline" slot="start"></ion-icon>
+      Registrar Nueva Compra
+    </ion-button>
+  </div>
+
+  <!-- Catálogo de Computadoras y Periféricos Sugeridos -->
+  <div class="ion-padding">
+    <h3 class="section-title">
+      <ion-icon name="laptop-outline" color="primary"></ion-icon>
+      Productos Informáticos Populares
+    </h3>
+    <ion-list lines="inset">
+      <ion-item *ngFor="let item of productosDestacados" button (click)="irACompra()">
+        <ion-icon [name]="item.icon" slot="start" color="primary"></ion-icon>
+        <ion-label>
+          <h2>{{ item.nombre }}</h2>
+          <p>{{ item.categoria }}</p>
+        </ion-label>
+        <ion-note slot="end" color="success">
+          <strong>${{ item.precio | number:'1.2-2' }}</strong>
+        </ion-note>
+      </ion-item>
+    </ion-list>
+  </div>
+
 </ion-content>
